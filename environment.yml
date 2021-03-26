@@ -1,0 +1,4 @@
+name: astro
+channels:
+  - defaults
+prefix: /home/lacker/miniconda3/envs/astro
