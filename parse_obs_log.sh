@@ -9,8 +9,6 @@ blocksize=134224384
 secsperblock=0.17899
 tmpfile=/tmp/parse_obs_log.$$
 
-echo XXX $$
-
 if [ ! -f $fullpath ]; then
   echo "no session: $fullpath"
   exit 0
@@ -35,19 +33,11 @@ for timing in `awk -F/ '{print $NF}' $fullpath | cut -c1-17 | sort | uniq`; do
 
   nicedate=`date -d "@"$firstscan "+%D %T"`
 
-  echo
-  echo XXX
-  head -1 $tmpfile
-  echo scan: $scan
-  echo length: $length
-  echo LIB: $lengthinblocks
-  echo nd: $nicedate
-  echo  
-
   echo $firstscan $nicedate $target $length $lengthinblocks | awk '{printf("%s %s %s %14s %4d (%5d) :",$1,$2,$3,$4,$5,$6)}' # nicedate is two words
+  
   targetnodes=""
   for node in $allnodes; do
-    rawdata=`grep blc$node $tmpfile | awk '{print $4}' | awk -F_ '{print $NF}' | awk -F'.' '{print $2}'`
+      rawdata=`grep blc$node $tmpfile | awk '{print $4}' | awk -F_ '{print $NF}' | awk -F'.' '{print $2}'`
     if [ -z "$rawdata" ]; then
       targetnodes="$targetnodes ---"
     else
