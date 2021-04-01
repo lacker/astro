@@ -52,8 +52,7 @@ class Row:
 
     def percent(self):
         "Percent completion for just this row."
-        # TODO: it seems like either "start_time" or "leftover_blocks" is misnamed here.
-        leftover_blocks = self.start_time / BLOCK_SIZE
+        leftover_blocks = self.num_bytes / BLOCK_SIZE
         rawdata_blocks = 128 * int(self.rawdata, base=10) + leftover_blocks
         percent = int(100 * rawdata_blocks / self.length_in_blocks)
         return percent

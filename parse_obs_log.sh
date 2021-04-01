@@ -41,7 +41,7 @@ for timing in `awk -F/ '{print $NF}' $fullpath | cut -c1-17 | sort | uniq`; do
     if [ -z "$rawdata" ]; then
       targetnodes="$targetnodes ---"
     else
-      leftoverbytes=`grep blc$node $tmpfile | awk '{print $5}'`
+      leftoverbytes=`grep blc$node $tmpfile | awk '{print $6}'`
       leftoverblocks=`echo $leftoverbytes $blocksize | awk '{printf("%d",($1/$2))}'` 
       rawdatablocks=`echo $rawdata $leftoverblocks | awk '{print $1 * 128 + $2}'`
       percent=`echo $rawdatablocks $lengthinblocks | awk '{printf("%d",($1/$2)*100)}'`
