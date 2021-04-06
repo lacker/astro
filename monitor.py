@@ -1,11 +1,10 @@
-#!/usr/bin/env python3
-
 import os
 import sys
-from flask import Flask
+from flask import Flask, render_template
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(THIS_DIR, "data")
+
 
 def list_data_files():
     """Return a list of (filename, filesize, modification time) for the files in the data dir."""
@@ -20,8 +19,7 @@ def list_data_files():
 
 app = Flask(__name__)
 
-app.logger.info(f"{DATA_DIR=}")
 
 @app.route("/")
 def index():
-    return f"welcome to monitor: {list_data_files()}"
+    return render_template("index.html")
