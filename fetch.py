@@ -7,7 +7,8 @@ from astropy.time import Time
 import requests
 import sys
 
-API = "http://35.236.84.6:5001/api"
+# API = "http://35.236.84.6:5001/api"
+API = "http://seti.berkeley.edu/opendata/api"
 
 now = Time.now().mjd
 params = {"cadence": False, "target": "", "time-start": now - 365}
