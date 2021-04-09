@@ -11,7 +11,7 @@ import sys
 API = "http://seti.berkeley.edu/opendata/api"
 
 now = Time.now().mjd
-params = {"cadence": False, "target": "", "time-start": now - 365}
+params = {"target": "", "time-start": now - 365}
 json = requests.get(f"{API}/query-files", params=params).json()
 if json["result"] != "success":
     print(json, file=sys.stderr)
