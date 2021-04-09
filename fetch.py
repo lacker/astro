@@ -10,8 +10,9 @@ import sys
 # API = "http://35.236.84.6:5001/api"
 API = "http://seti.berkeley.edu/opendata/api"
 
+# Find HDF5 files from the last year
 now = Time.now().mjd
-params = {"target": "", "time-start": now - 365}
+params = {"target": "", "file-types": "HDF5", "time-start": now - 365}
 json = requests.get(f"{API}/query-files", params=params).json()
 if json["result"] != "success":
     print(json, file=sys.stderr)

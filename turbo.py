@@ -4,8 +4,9 @@ import time
 
 from turbo_seti.find_doppler.find_doppler import FindDoppler
 
-# file = "single_coarse_guppi_59046_80036_DIAG_VOYAGER-1_0011.rawspec.0000.h5"
-file = "blc41_guppi_59103_01372_PSR_B2021+51_0009.rawspec.0000.h5"
+file = (
+    "spliced_blc4041424344454647_guppi_59103_04780_DIAG_HIP95802_0019.rawspec.0002.h5"
+)
 
 doppler = FindDoppler(
     "data/" + file,
