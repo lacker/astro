@@ -5,5 +5,5 @@ from hyperseti import hyperseti
 fname = "data/blc41_guppi_59103_01372_PSR_B2021+51_0009.rawspec.0000.h5"
 
 hits = hyperseti.find_et_serial(
-    fname, filename_out="output/hits.csv", gulp_size=2 ** 18, max_dd=1.0, threshold=50
+    fname, filename_out="output/hits.csv", max_dd=1.0, threshold=50
 )
