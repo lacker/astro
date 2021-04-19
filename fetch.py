@@ -4,8 +4,15 @@ Fetches data from the Open Data Archive.
 """
 
 from astropy.time import Time
+import os
 import requests
 import sys
+
+NUM_FILES = 2
+DATA_DIR = "/d/astrodata"
+if not os.path.exists(DATA_DIR):
+    print(f"please mount {DATA_DIR}")
+    sys.exit(1)
 
 # API = "http://35.236.84.6:5001/api"
 API = "http://seti.berkeley.edu/opendata/api"
@@ -27,6 +34,8 @@ data = [x for x in data if not x["url"].endswith("0001.h5")]
 
 # Sort by most recent first
 data.sort(key=lambda x: -x["mjd"])
-print(f"fetched {len(data)} entries. most recent:")
-for entry in data[:10]:
-    print(entry)
+data = data[:NUM_FILES]
+
+# Download things
+for entry in data:
+    print("TODO: download", entry["url"])
