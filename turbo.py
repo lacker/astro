@@ -10,6 +10,7 @@ file = (
 
 doppler = FindDoppler(
     "data/" + file,
+    min_drift=0.001,
     max_drift=4,  # Max drift rate = 4 Hz/second
     snr=10,  # Minimum signal to noise ratio = 10:1
     out_dir="output",  # This is where the turboSETI output files will be stored.

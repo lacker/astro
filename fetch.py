@@ -7,6 +7,7 @@ from astropy.time import Time
 import os
 import requests
 import sys
+from urllib.request import urlretrieve
 
 NUM_FILES = 2
 DATA_DIR = "/d/astrodata"
@@ -38,4 +39,11 @@ data = data[:NUM_FILES]
 
 # Download things
 for entry in data:
-    print("TODO: download", entry["url"])
+    url = entry["url"]
+    fname = url.split("/")[-1]
+    dest = os.path.join(DATA_DIR, fname)
+    print(entry)
+    if os.path.exists(dest):
+        print(fname, "exists")
+    else:
+        print("TODO: download", entry["url"])
