@@ -4,6 +4,7 @@ Fetches data from the Open Data Archive.
 """
 
 from astropy.time import Time
+import json
 import os
 import requests
 import sys
@@ -22,13 +23,13 @@ GIGABYTE = 1024 ** 3
 # Find HDF5 files from the last year
 now = Time.now().mjd
 params = {"target": "", "file-types": "HDF5", "time-start": now - 365}
-json = requests.get(f"{API}/query-files", params=params).json()
-if json["result"] != "success":
-    print(json, file=sys.stderr)
+response = requests.get(f"{API}/query-files", params=params).json()
+if response["result"] != "success":
+    print(response, file=sys.stderr)
     raise IOError("API failure")
 
 # At most 5 gig in size
-data = [x for x in json["data"] if x["size"] <= 5 * GIGABYTE]
+data = [x for x in response["data"] if x["size"] <= 5 * GIGABYTE]
 
 # Drop the 0001.h5, those are high-time-resolution / low-frequency-resolution
 data = [x for x in data if not x["url"].endswith("0001.h5")]
@@ -51,3 +52,6 @@ for entry in data:
             print(dest, "has weird size??")
     print("downloading", dest)
     urlretrieve(url, dest)
+
+with open(os.path.join(DATA_DIR, "index.json"), "w") as f:
+    f.write(json.dumps(data, sort_keys=True, indent=2))
