@@ -44,7 +44,10 @@ for entry in data:
     dest = os.path.join(DATA_DIR, fname)
     print(entry)
     if os.path.exists(dest):
-        print(dest, "exists")
-    else:
-        print("downloading", dest)
-        urlretrieve(url, dest)
+        if os.path.getsize(dest) == entry["size"]:
+            print(dest, "already exists")
+            continue
+        else:
+            print(dest, "has weird size??")
+    print("downloading", dest)
+    urlretrieve(url, dest)
