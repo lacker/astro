@@ -1,22 +1,29 @@
 #!/usr/bin/env python
 
+import json
+import os
 import time
 
 from turbo_seti.find_doppler.find_doppler import FindDoppler
 
-file = (
-    "spliced_blc4041424344454647_guppi_59103_04780_DIAG_HIP95802_0019.rawspec.0002.h5"
-)
+DATA_DIR = "/d/astrodata"
 
-doppler = FindDoppler(
-    "data/" + file,
-    min_drift=0.001,
-    max_drift=4,  # Max drift rate = 4 Hz/second
-    snr=10,  # Minimum signal to noise ratio = 10:1
-    out_dir="output",  # This is where the turboSETI output files will be stored.
-    gpu_backend=True,
-)
-start = time.time()
-doppler.search()
-elapsed = time.time() - start
-print(f"turboseti time elapsed: {elapsed:.2f}s")
+with open(os.path.join(DATA_DIR, "index.json")) as f:
+    index = json.load(f)
+
+files = [entry["url"].split("/")[-1] for entry in index]
+
+for fname in files:
+    print("analyzing", fname)
+    doppler = FindDoppler(
+        os.path.join(DATA_DIR, fname),
+        min_drift=0.001,
+        max_drift=4,
+        snr=10,
+        out_dir=os.path.join(DATA_DIR, "output"),
+        gpu_backend=True,
+    )
+    start = time.time()
+    doppler.search()
+    elapsed = time.time() - start
+    print(f"time to turboseti {fname}: {elapsed:.2f}s")
