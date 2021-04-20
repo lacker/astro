@@ -44,7 +44,7 @@ for entry in data:
     dest = os.path.join(DATA_DIR, fname)
     print(entry)
     if os.path.exists(dest):
-        print(fname, "exists")
+        print(dest, "exists")
     else:
-        print("downloading", fname)
+        print("downloading", dest)
         urlretrieve(url, dest)
