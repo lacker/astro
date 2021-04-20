@@ -46,4 +46,5 @@ for entry in data:
     if os.path.exists(dest):
         print(fname, "exists")
     else:
-        print("TODO: download", entry["url"])
+        print("downloading", fname)
+        urlretrieve(url, dest)
