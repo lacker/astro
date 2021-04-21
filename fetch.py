@@ -10,13 +10,12 @@ import requests
 import sys
 from urllib.request import urlretrieve
 
-NUM_FILES = 2
+NUM_FILES = 10
 DATA_DIR = "/d/astrodata"
 if not os.path.exists(DATA_DIR):
     print(f"please mount {DATA_DIR}")
     sys.exit(1)
 
-# API = "http://35.236.84.6:5001/api"
 API = "http://seti.berkeley.edu/opendata/api"
 GIGABYTE = 1024 ** 3
 
