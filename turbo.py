@@ -9,6 +9,8 @@ from turbo_seti.find_doppler.find_doppler import FindDoppler
 DATA_DIR = "/d/astrodata"
 OUTPUT_DIR = os.path.join(DATA_DIR, "output")
 
+SKIP = set(["guppi_59012_80282_6072999122_XaS038-S5-HVS_R_0001.0000.h5"])
+
 
 def analyze(fname):
     dat_path = os.path.join(OUTPUT_DIR, fname.rsplit(".", 1)[0] + ".dat")
@@ -52,6 +54,8 @@ files = [entry["url"].split("/")[-1] for entry in index]
 
 hits = []
 for fname in files:
+    if fname in SKIP:
+        continue
     for hit in analyze(fname):
         hits.append((hit, fname))
 
