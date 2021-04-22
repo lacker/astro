@@ -25,7 +25,7 @@ def check_disk_space(desired):
     # Check free space
     statvfs = os.statvfs(DATA_DIR)
     free_bytes = statvfs.f_frsize * statvfs.f_bfree
-    print(f"{free_bytes / GIGABYTE} GB free disk space")
+    print(f"{free_bytes / GIGABYTE : .2f} GB free disk space")
     if free_bytes < desired:
         print("please free up more disk space")
         sys.exit(1)
