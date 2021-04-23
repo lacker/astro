@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
+from distutils.dir_util import copy_tree
 import json
 import os
 import sys
+import tempfile
 import time
 
 from turbo_seti.find_doppler.find_doppler import FindDoppler
@@ -10,26 +12,28 @@ from turbo_seti.find_doppler.find_doppler import FindDoppler
 DATA_DIR = "/d/astrodata"
 OUTPUT_DIR = os.path.join(DATA_DIR, "output")
 
-N_COARSE_CHAN = {"guppi_59012_80282_6072999122_XaS038-S5-HVS_R_0001.0000.h5": 64}
+N_COARSE_CHAN = {"guppi_59012_80282_6072999122_XaS038-S5-HVS_R_0001.0000.h5": 16}
 
 
 def analyze(fname):
     dat_path = os.path.join(OUTPUT_DIR, fname.rsplit(".", 1)[0] + ".dat")
     if not os.path.exists(dat_path):
-        print("analyzing", fname)
-        doppler = FindDoppler(
-            os.path.join(DATA_DIR, fname),
-            min_drift=0.001,
-            max_drift=4,
-            snr=10,
-            out_dir=OUTPUT_DIR,
-            gpu_backend=True,
-            n_coarse_chan=N_COARSE_CHAN.get(fname),
-        )
-        start = time.time()
-        doppler.search()
-        elapsed = time.time() - start
-        print(f"time to turboseti {fname}: {elapsed:.2f}s")
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            print("analyzing", fname)
+            doppler = FindDoppler(
+                os.path.join(DATA_DIR, fname),
+                min_drift=0.001,
+                max_drift=4,
+                snr=10,
+                out_dir=tmp_dir,
+                gpu_backend=True,
+                n_coarse_chan=N_COARSE_CHAN.get(fname),
+            )
+            start = time.time()
+            doppler.search()
+            elapsed = time.time() - start
+            print(f"time to turboseti {fname}: {elapsed:.2f}s")
+            copy_tree(tmp_dir, OUTPUT_DIR)
 
     if not os.path.exists(dat_path):
         raise IOError(f"turboseti did not generate dat as expected at {dat_path}")
