@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from blimpy.io.hdf_reader import H5Reader
 from distutils.dir_util import copy_tree
 import json
 import os
@@ -15,25 +16,41 @@ OUTPUT_DIR = os.path.join(DATA_DIR, "output")
 N_COARSE_CHAN = {"guppi_59012_80282_6072999122_XaS038-S5-HVS_R_0001.0000.h5": 16}
 
 
+def find_doppler(fname):
+    # Do our own coarse channel counting heuristics
+    fpath = os.path.join(DATA_DIR, fname)
+    header = H5Reader(fpath, load_data=False).read_header()
+    nchans = header["nchans"]
+    if nchans == 64000000 and fname.endswith("0000.h5"):
+        # According to davidm this means this is Parkes UWL single node, so 1 coarse channel.
+        # We can't process that much at once, though, so we use a higher number for batching.
+        n_coarse_chan = 16
+    else:
+        # Use default n_coarse_chan heuristics
+        n_coarse_chan = None
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        print("analyzing", fname)
+        doppler = FindDoppler(
+            fpath,
+            min_drift=0.001,
+            max_drift=4,
+            snr=10,
+            out_dir=tmp_dir,
+            gpu_backend=True,
+            n_coarse_chan=n_coarse_chan,
+        )
+        start = time.time()
+        doppler.search()
+        elapsed = time.time() - start
+        print(f"time to turboseti {fname}: {elapsed:.2f}s")
+        copy_tree(tmp_dir, OUTPUT_DIR)
+
+
 def analyze(fname):
     dat_path = os.path.join(OUTPUT_DIR, fname.rsplit(".", 1)[0] + ".dat")
     if not os.path.exists(dat_path):
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            print("analyzing", fname)
-            doppler = FindDoppler(
-                os.path.join(DATA_DIR, fname),
-                min_drift=0.001,
-                max_drift=4,
-                snr=10,
-                out_dir=tmp_dir,
-                gpu_backend=True,
-                n_coarse_chan=N_COARSE_CHAN.get(fname),
-            )
-            start = time.time()
-            doppler.search()
-            elapsed = time.time() - start
-            print(f"time to turboseti {fname}: {elapsed:.2f}s")
-            copy_tree(tmp_dir, OUTPUT_DIR)
+        find_doppler(fname)
 
     if not os.path.exists(dat_path):
         raise IOError(f"turboseti did not generate dat as expected at {dat_path}")
