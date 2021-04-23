@@ -2,6 +2,7 @@
 
 import json
 import os
+import sys
 import time
 
 from turbo_seti.find_doppler.find_doppler import FindDoppler
@@ -9,7 +10,7 @@ from turbo_seti.find_doppler.find_doppler import FindDoppler
 DATA_DIR = "/d/astrodata"
 OUTPUT_DIR = os.path.join(DATA_DIR, "output")
 
-SKIP = set(["guppi_59012_80282_6072999122_XaS038-S5-HVS_R_0001.0000.h5"])
+N_COARSE_CHAN = {"guppi_59012_80282_6072999122_XaS038-S5-HVS_R_0001.0000.h5": 64}
 
 
 def analyze(fname):
@@ -23,6 +24,7 @@ def analyze(fname):
             snr=10,
             out_dir=OUTPUT_DIR,
             gpu_backend=True,
+            n_coarse_chan=N_COARSE_CHAN.get(fname),
         )
         start = time.time()
         doppler.search()
@@ -47,19 +49,30 @@ def analyze(fname):
         return hits
 
 
-with open(os.path.join(DATA_DIR, "index.json")) as f:
-    index = json.load(f)
+def process_files(files):
+    hits = []
+    for fname in files:
+        for hit in analyze(fname):
+            hits.append((hit, fname))
 
-files = [entry["url"].split("/")[-1] for entry in index]
+    print(len(hits), "hits:")
+    for hit, fname in hits:
+        print(f"from {fname}:")
+        print(f"  {hit}")
 
-hits = []
-for fname in files:
-    if fname in SKIP:
-        continue
-    for hit in analyze(fname):
-        hits.append((hit, fname))
 
-print(len(hits), "hits:")
-for hit, fname in hits:
-    print(f"from {fname}:")
-    print(f"  {hit}")
+def process_all():
+    with open(os.path.join(DATA_DIR, "index.json")) as f:
+        index = json.load(f)
+
+    files = [entry["url"].split("/")[-1] for entry in index]
+    process_files(files)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        process_all()
+    else:
+        files = sys.argv[1:]
+        print("processing:", " ".join(files))
+        process_files(files)
