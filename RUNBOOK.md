@@ -27,20 +27,23 @@ Then the UCB account:
 
 `ssh bl-head`
 
+## Environment
+
+In general the pipeline runs as `obs`.
+
+* `su obs`
+* `conda activate pipeline`
+
 ## Splicing
 
 If we splice from `datax2` then there won't be contention with observing.
 
-First we need to check how much space is available in different places
-to make decisions.
-
 * ssh into bls0
-* `su obs`
 * `df -h --total /mnt_bls*/datax*`
 * Pick the one with the most space that isn't `bls9` which is for
-  "special projects". We'll put output there.
+  "special projects". If we splice from `datax2` then there won't be
+  contention with observing, so just pick one of those for now. We'll put output there.
 * ssh into bls{n}
-* `su obs`
 * `all_df_bg` shows you usage for `blc{x}{x}` machines. Find one that's
   getting full. We'll take input files from there.
 * Pick one of the
