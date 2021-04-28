@@ -29,26 +29,36 @@ Then the UCB account:
 
 ## Environment
 
-In general the pipeline runs as `obs`.
+In general the pipeline runs as `obs` and the Python orchestration code is in `~/bin/pipeline`:
 
 * `su obs`
 * `conda activate pipeline`
+* `cd ~/bin/pipeline`
+
+## Status
+
+To operate the pipeline status server, from two separate terminals run:
+
+* `./status.py`
+* `~/ngrok http 8080`
 
 ## Splicing
-
-If we splice from `datax2` then there won't be contention with observing.
 
 * ssh into bls0
 * `df -h --total /mnt_bls*/datax*`
 * Pick the one with the most space that isn't `bls9` which is for
-  "special projects". If we splice from `datax2` then there won't be
-  contention with observing, so just pick one of those for now. We'll put output there.
+  "special projects". We'll put output there.
 * ssh into bls{n}
 * `all_df_bg` shows you usage for `blc{x}{x}` machines. Find one that's
-  getting full. We'll take input files from there.
+  getting full. Pick a `datax2` so we don't have contention with
+  observing. We'll take input files from there.
 * Pick one of the
   `/mnt_blc{hostn}/datax2/dibas.{date}/{sessionid}/GUPPI/BLP{hostn}`
   directories. Each directory is a session.
+* You need to pick a directory that has not yet been spliced. One sign
+  that splicing has already run is when there is a `.done` file
+  without a corresponding `.fil` file.
+* Don't pick a directory with `DIAG` in the name, those are special.
 * cd into it
 * `su root`
 * `/home/obs/bin/do_anyspec_collate . /datax{n}/collate |& tee -a collate.out`
