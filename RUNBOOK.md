@@ -15,6 +15,8 @@ Overall the pipeline has these steps:
 
 Steps 1 and 2 are done by the observer. This doc covers steps 3-5.
 
+GOAL: skip the splicing step.
+
 ## Log in
 
 You need two accounts, a GB account and a UCB account.
