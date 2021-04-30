@@ -46,19 +46,14 @@ To operate the pipeline status server, from two separate terminals run:
 
 ## Analyzing disk space
 
-* ssh into bls0
-* `df -h --total /mnt_bls*/datax*`
-* Pick the one with the most space that isn't `bls9` which is for
-  "special projects". We'll put output there.
-* ssh into bls{n}
-* `all_df_bg` shows you usage for `blc{x}{x}` machines. Find one that's
-  getting full. We'll take input files from there.
-* Pick one of the
+* `bls` machines have all the relevant disks mounted.
+* The potential inputs are the
   `/mnt_blc{hostn}/datax2/dibas.{date}/{sessionid}/GUPPI/BLP{hostn}`
   directories. Each directory is a session.
 * You need to pick a directory that has not yet been spliced. One sign
   that splicing has already run is when there is a `.done` file
   without a corresponding `.fil` file.
+* The potential outputs are the `/mnt_bls{n}/datax*` directories.
   
 ## Conversion
 
@@ -74,7 +69,7 @@ Go to the bls machine we're using:
 
 `ssh bls0`
 
-Move:
+Move (for example):
 
 `/mnt_blc03/datax2/dibas.20170329/AGBT17A_999_35/GUPPI/BLP03/blc03_guppi_57841_70863_B0329+54_0021.gpuspec.0000.fil`
 
@@ -82,6 +77,7 @@ To:
 
 `/datax3/pipeline/AGBT17A_999_35/blc03`
 
+* You have to make that directory first
 * Deal with root ownership, it should be obs
 
 Fix it up:
@@ -90,7 +86,10 @@ Fix it up:
 
 Convert to h5:
 
-`fil2h5 blc03_guppi_57841_70863_B0329+54_0021.gpuspec.0000.fil`
+```
+conda activate base
+fil2h blc03_guppi_57841_70863_B0329+54_0021.gpuspec.0000.fil
+```
 
 * That creates the h5, but there's still a fil in there.
 * Append `.x2h` to the fil file for theoretical deletion later
