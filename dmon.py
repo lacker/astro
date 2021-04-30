@@ -12,5 +12,9 @@ class Monitor(object):
         template = env.get_template("index.html")
         return template.render(lines=["hello templated world", ";-)"])
 
+    def hello(self, param="world"):
+        template = env.get_template("index.html")
+        return template.render(line=["hello " + param])
+
 
 cherrypy.quickstart(Monitor())
