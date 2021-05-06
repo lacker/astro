@@ -88,7 +88,7 @@ Convert to h5:
 
 ```
 conda activate base
-fil2h blc03_guppi_57841_70863_B0329+54_0021.gpuspec.0000.fil
+fil2h5 blc03_guppi_57841_70863_B0329+54_0021.gpuspec.0000.fil
 ```
 
 * That creates the h5, but there's still a fil in there.
