@@ -10,8 +10,7 @@ H5 = BASE + ".h5"
 DAT = BASE + ".dat"
 
 h5 = h5py.File(H5, mode="r")
-data = h5["data"]
-print(data.attrs)
+print(list(h5.keys()))
 
 # waterfall = Waterfall(H5)
 # print(waterfall.info())
