@@ -12,4 +12,8 @@ EXAMPLE_FILE = "data/blc41_guppi_59103_01372_PSR_B2021+51_0009.rawspec.0000.h5"
 
 
 class Viewer(object):
-    pass
+    def __init__(self, filename):
+        self.h5file = h5py.File(filename, r)
+        self.data = self.h5file["data"]
+        self.height, one, self.width = self.data.shape[2]
+        assert one == 1
