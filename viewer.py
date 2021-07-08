@@ -13,7 +13,15 @@ EXAMPLE_FILE = "data/blc41_guppi_59103_01372_PSR_B2021+51_0009.rawspec.0000.h5"
 
 class Viewer(object):
     def __init__(self, filename):
-        self.h5file = h5py.File(filename, r)
+        self.h5file = h5py.File(filename, mode="r")
         self.data = self.h5file["data"]
-        self.height, one, self.width = self.data.shape[2]
+        self.height, one, self.width = self.data.shape
         assert one == 1
+
+        print("loading data onto the GPU...")
+        self.array = cupy.asarray(self.data[:, 0, :])
+
+
+if __name__ == "__main__":
+    v = Viewer(EXAMPLE_FILE)
+    print("data is", v.height, "x", v.width)
