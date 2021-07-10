@@ -26,3 +26,4 @@ if __name__ == "__main__":
     v = Viewer(EXAMPLE_FILE)
     print("data is", v.height, "x", v.width)
     print("mean is", cupy.mean(v.array))
+    print("std is", cupy.std(v.array))
