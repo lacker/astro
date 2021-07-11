@@ -25,5 +25,6 @@ class Viewer(object):
 if __name__ == "__main__":
     v = Viewer(EXAMPLE_FILE)
     print("data is", v.height, "x", v.width)
-    print("mean is", cupy.mean(v.array))
-    print("std is", cupy.std(v.array))
+    print("max0 is", cupy.amax(v.array[0, :]))
+    print("mean0 is", cupy.mean(v.array[0, :]))
+    print("std0 is", cupy.std(v.array[0, :]))
