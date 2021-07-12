@@ -25,6 +25,9 @@ class Viewer(object):
 if __name__ == "__main__":
     v = Viewer(EXAMPLE_FILE)
     print("data is", v.height, "x", v.width)
-    print("max0 is", cupy.amax(v.array[0, :]))
-    print("mean0 is", cupy.mean(v.array[0, :]))
-    print("std0 is", cupy.std(v.array[0, :]))
+    mean = cupy.mean(v.array)
+    print("mean is", mean)
+    std = cupy.std(v.array)
+    print("std is", std)
+    threshold = mean + 3 * std
+    print("using threshold", threshold)
