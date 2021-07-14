@@ -31,3 +31,5 @@ if __name__ == "__main__":
     print("std is", std)
     threshold = mean + 3 * std
     print("using threshold", threshold)
+    m = cupy.max(v.array, axis=0)
+    print(m.shape)
