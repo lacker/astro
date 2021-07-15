@@ -33,3 +33,4 @@ if __name__ == "__main__":
     print("using threshold", threshold)
     m = cupy.max(v.array, axis=0)
     print(m.shape)
+    print((m > threshold).sum())
