@@ -29,8 +29,9 @@ if __name__ == "__main__":
     print("mean is", mean)
     std = cupy.std(v.array)
     print("std is", std)
-    threshold = mean + 3 * std
+    k = 2
+    threshold = mean + k * std
     print("using threshold", threshold)
     m = cupy.max(v.array, axis=0)
     print(m.shape)
-    print((m > threshold).sum(), "columns have data beyond +3 stdev")
+    print((m > threshold).sum(), f"columns have data beyond +{k} stdev")
