@@ -35,3 +35,6 @@ if __name__ == "__main__":
     m = cupy.max(v.array, axis=0)
     print(m.shape)
     print((m > threshold).sum(), f"columns have data beyond +{k} stdev")
+
+    chunks = 64
+    chunk_size = len(m) / chunks
