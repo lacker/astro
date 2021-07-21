@@ -38,3 +38,6 @@ if __name__ == "__main__":
 
     chunks = 64
     chunk_size = len(m) / chunks
+
+    for i in range(chunks):
+        chunk = v[:, i * chunk_size : (i + 1) * chunk_size]
