@@ -41,3 +41,4 @@ if __name__ == "__main__":
 
     for i in range(chunks):
         chunk = v[:, i * chunk_size : (i + 1) * chunk_size]
+        print("max of chunk", chunk, "is", cupy.max(chunk))
