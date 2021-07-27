@@ -37,7 +37,8 @@ if __name__ == "__main__":
     print((m > threshold).sum(), f"columns have data beyond +{k} stdev")
 
     chunks = 64
-    chunk_size = len(m) / chunks
+    assert len(m) % chunks == 0
+    chunk_size = len(m) // chunks
 
     for i in range(chunks):
         chunk = v.data[:, i * chunk_size : (i + 1) * chunk_size]
