@@ -44,4 +44,5 @@ if __name__ == "__main__":
         print("analyzing chunk", i)
         chunk = v.array[:, i * chunk_size : (i + 1) * chunk_size]
         print("chunk size is", chunk.shape)
-        print("max of chunk", chunk, "is", cupy.max(chunk))
+        chunk_mid = chunk.shape[1] // 2
+        print("max of chunk left for chunk", i, "is", cupy.max(chunk[:, :chunk_mid]))
