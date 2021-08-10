@@ -46,3 +46,9 @@ if __name__ == "__main__":
         print("chunk size is", chunk.shape)
         chunk_mid = chunk.shape[1] // 2
         print("max of chunk left for chunk", i, "is", cupy.max(chunk[:, :chunk_mid]))
+        print(
+            "max of chunk right for chunk",
+            i,
+            "is",
+            cupy.max(chunk[:, (chunk_mid + 1) :]),
+        )
