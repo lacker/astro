@@ -10,6 +10,8 @@ import cupy
 
 EXAMPLE_FILE = "data/blc41_guppi_59103_01372_PSR_B2021+51_0009.rawspec.0000.h5"
 
+NUM_CHUNKS = 64
+
 
 class Viewer(object):
     def __init__(self, filename):
@@ -20,6 +22,10 @@ class Viewer(object):
 
         print("loading data onto the GPU...")
         self.array = cupy.asarray(self.data[:, 0, :])
+
+    def chunk(self, n):
+        assert 0 <= n < NUM_CHUNKS
+        raise Exception("TODO")
 
 
 if __name__ == "__main__":
