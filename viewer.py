@@ -26,7 +26,7 @@ class Viewer(object):
     def chunk(self, n):
         assert 0 <= n < NUM_CHUNKS
         chunk_size = self.width // NUM_CHUNKS
-        raise Exception("TODO")
+        return self.array[:, n * chunk_size : (n + 1) * chunk_size]
 
 
 if __name__ == "__main__":
