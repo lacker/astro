@@ -43,13 +43,9 @@ if __name__ == "__main__":
     print(m.shape)
     print((m > threshold).sum(), f"columns have data beyond +{k} stdev")
 
-    chunks = 64
-    assert len(m) % chunks == 0
-    chunk_size = len(m) // chunks
-
-    for i in range(chunks):
+    for i in range(NUM_CHUNKS):
         print("analyzing chunk", i)
-        chunk = v.array[:, i * chunk_size : (i + 1) * chunk_size]
+        chunk = v.chunk(i)
         print("chunk size is", chunk.shape)
         chunk_mid = chunk.shape[1] // 2
         print("max of chunk left for chunk", i, "is", cupy.max(chunk[:, :chunk_mid]))
