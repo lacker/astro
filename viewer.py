@@ -20,28 +20,15 @@ class Viewer(object):
         self.height, one, self.width = self.data.shape
         assert one == 1
 
-        print("loading data onto the GPU...")
-        self.array = cupy.asarray(self.data[:, 0, :])
-
     def chunk(self, n):
         assert 0 <= n < NUM_CHUNKS
         chunk_size = self.width // NUM_CHUNKS
-        return self.array[:, n * chunk_size : (n + 1) * chunk_size]
+        return cupy.asarray(self.data[:, 0, n * chunk_size : (n + 1) * chunk_size])
 
 
 if __name__ == "__main__":
     v = Viewer(EXAMPLE_FILE)
     print("data is", v.height, "x", v.width)
-    mean = cupy.mean(v.array)
-    print("mean is", mean)
-    std = cupy.std(v.array)
-    print("std is", std)
-    k = 2
-    threshold = mean + k * std
-    print("using threshold", threshold)
-    m = cupy.max(v.array, axis=0)
-    print(m.shape)
-    print((m > threshold).sum(), f"columns have data beyond +{k} stdev")
 
     for i in range(NUM_CHUNKS):
         print("analyzing chunk", i)
