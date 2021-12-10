@@ -4,7 +4,7 @@ Okay, try this. I promise it works on the `blpc` machines.
 
 If it doesn't work, you can bug me (Kevin Lacker) on Slack to fix your python environment.
 
-First, install miniconda3 in your home directory.
+First, install miniconda3 in your home directory. Get it from https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html
 
 If you run into errors like `error while loading shared libraries: libz.so.1` the problem is that the temp dir isn't executable. Install miniconda with
 
