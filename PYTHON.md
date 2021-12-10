@@ -9,7 +9,8 @@ First, install miniconda3 in your home directory.
 Second, follow these steps.
 
 ```
-conda env create -f /home/obs/obs_bin/pipeline/environment.yml
+cp /home/obs/obs_bin/pipeline/environment.yml .
+conda env create -f environment.yml
 conda activate pipeline
 pip uninstall h5py
 pip install --no-binary=h5py h5py
