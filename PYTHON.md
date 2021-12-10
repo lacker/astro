@@ -6,7 +6,13 @@ If it doesn't work, you can bug me (Kevin Lacker) on Slack to fix your python en
 
 First, install miniconda3 in your home directory.
 
-Second, follow these steps.
+If you run into errors like `error while loading shared libraries: libz.so.1` the problem is that the temp dir isn't executable. Install miniconda with
+
+```
+TMPDIR=~/ bash Miniconda3-latest-Linux-x86_64.sh
+```
+
+Once miniconda3 is installed, follow these steps to set up the "pipeline" environment.
 
 ```
 cp /home/obs/obs_bin/pipeline/environment.yml .
