@@ -1,3 +1,3 @@
 #!/bin/bash
-ssh ssh.gb.nrao.edu -l klacker
+sshpass -f ~/.gbpass ssh -o StrictHostKeyChecking=no klacker@ssh.gb.nrao.edu
 
