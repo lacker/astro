@@ -1,2 +1,4 @@
 #!/bin/bash
-ssh -L 7777:localhost:7777 blpc1
+PORT=7777
+echo tunneling to $1 port $PORT
+ssh -L $PORT:localhost:$PORT $1
