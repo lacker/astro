@@ -6,12 +6,13 @@ See:
   https://pyuvdata.readthedocs.io/en/latest/uvdata_tutorial.html
 """
 
+import os
 from pyuvdata import UVData
 
 assert __name__ == "__main__"
 
-INPUT_FILENAME = "/home/lacker/julia/Rawx.jl/test/blk2.uvh5"
-OUTPUT_FILENAME = "/home/lacker/mkdata/imaging/blk2.ms"
+INPUT_FILENAME = os.path.expanduser("~/mkdata/imaging/head.uvh5")
+OUTPUT_FILENAME = os.path.expanduser("~/mkdata/imaging/head.ms")
 
 uvd = UVData()
 uvd.read(INPUT_FILENAME)
